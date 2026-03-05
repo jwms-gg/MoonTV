@@ -34,6 +34,17 @@ export function getImageProxyUrl(): string | null {
 export function processImageUrl(originalUrl: string): string {
   if (!originalUrl) return originalUrl;
 
+  // 豆瓣图片URL转换为webp格式  
+  if (originalUrl.includes('doubanio.com') && originalUrl.endsWith('.jpg')) {  
+    // 将jpg转换为webp格式  
+    const webpUrl = originalUrl.replace(/\.jpg$/, '.webp');  
+      
+    const proxyUrl = getImageProxyUrl();  
+    if (!proxyUrl) return webpUrl;  
+      
+    return `${proxyUrl}${encodeURIComponent(webpUrl)}`;  
+  }  
+  
   const proxyUrl = getImageProxyUrl();
   if (!proxyUrl) return originalUrl;
 
